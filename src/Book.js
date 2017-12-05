@@ -1,6 +1,10 @@
 import React from "react";
 
 class Book extends React.Component {
+  change(event) {
+    this.props.moveBook(event.target.value);
+  }
+
   render() {
     return (
       <div className="book">
@@ -14,7 +18,12 @@ class Book extends React.Component {
             }}
           />
           <div className="book-shelf-changer">
-            <select>
+            <select
+              onChange={e => {
+                this.change(e);
+              }}
+              value={this.props.shelf}
+            >
               <option value="none" disabled>
                 Move to...
               </option>
