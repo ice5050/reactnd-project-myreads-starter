@@ -2,7 +2,7 @@ import React from "react";
 
 class Book extends React.Component {
   change(event) {
-    this.props.moveBook(event.target.value);
+    if (this.props.moveBook) this.props.moveBook(event.target.value);
   }
 
   render() {
@@ -12,8 +12,8 @@ class Book extends React.Component {
           <div
             className="book-cover"
             style={{
-              width: this.props.width,
-              height: this.props.height,
+              width: this.props.width || 128,
+              height: this.props.height || 192,
               backgroundImage: `url("${this.props.backgroundImage}")`
             }}
           />
