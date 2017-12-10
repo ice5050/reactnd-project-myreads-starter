@@ -10,6 +10,11 @@ class BooksApp extends React.Component {
     books: []
   };
 
+  /**
+  * @description Move a book into a shelf
+  * @param {object} book book
+  * @returns {array} A function that receive shelf name and will move the book into that shelf
+  */
   moveBook(book) {
     return shelf => {
       this.setState(
@@ -25,25 +30,42 @@ class BooksApp extends React.Component {
     };
   }
 
+  /**
+  * @description Get all of the books in specific bookshelf
+  * @param {string} shelf bookshelf name
+  * @returns {array} Array of the books in the bookshelf
+  */
   getBooksInShelf(shelf) {
     return this.state.books.filter(b => b.shelf === shelf);
   }
 
+  /**
+  * @description Get names of the bookshelfs
+  * @returns {array} Array of names of the bookshelfs
+  */
   getAllBookshelfs() {
     return [...new Set(this.state.books.map(b => b.shelf))];
   }
 
+  /**
+  * @description Get all of the books in the bookshelfs
+  * @returns {array} Array of the books in the bookshelfs
+  */
   getAllBooks() {
     return this.state.books;
   }
 
   componentDidMount() {
+    // Load the books in LocalStorage and set them to the state
     if (localStorage.getItem("books")) {
       const books = JSON.parse(localStorage.getItem("books"));
       this.setState(state => ({ ...state, books: books }));
     }
   }
 
+  /**
+  * @description Save all of the books in the bookshelfs into LocalStorage
+  */
   saveState() {
     localStorage.setItem("books", JSON.stringify(this.state.books));
   }
