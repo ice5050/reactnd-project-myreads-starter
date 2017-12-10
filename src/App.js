@@ -25,18 +25,6 @@ class BooksApp extends React.Component {
     };
   }
 
-  addBook(book) {
-    return shelf => {
-      this.setState(
-        state => ({
-          ...state,
-          books: [...state.books, { ...book, shelf }]
-        }),
-        this.saveState
-      );
-    };
-  }
-
   getBooksInShelf(shelf) {
     return this.state.books.filter(b => b.shelf === shelf);
   }
@@ -46,7 +34,7 @@ class BooksApp extends React.Component {
   }
 
   getAllBooks() {
-    return this.state.books.filter(b => b.shelf !== "none");
+    return this.state.books;
   }
 
   componentDidMount() {
@@ -67,7 +55,7 @@ class BooksApp extends React.Component {
           path="/search"
           render={() => (
             <SearchBooks
-              addBook={this.addBook.bind(this)}
+              moveBook={this.moveBook.bind(this)}
               getAllBooks={this.getAllBooks.bind(this)}
             />
           )}

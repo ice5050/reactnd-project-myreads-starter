@@ -12,17 +12,22 @@ class SearchBooks extends React.Component {
   change(event) {
     this.setState({ query: event.target.value.trim() });
     if (this.state.query)
-      search(this.state.query, 5)
+      search(this.state.query, 10)
         .then(books => {
           this.setState(state => ({
             ...state,
-            books: books.map(b => ({
-              shelf: "none",
-              id: b.id,
-              title: b.title,
-              author: b.authors && b.authors[0],
-              backgroundImage: b.imageLinks && b.imageLinks.thumbnail
-            }))
+            books: books.map(
+              b =>
+                this.props
+                  .getAllBooks()
+                  .find(bookInShelf => bookInShelf.id === b.id) || {
+                  shelf: "none",
+                  id: b.id,
+                  title: b.title,
+                  author: b.authors && b.authors[0],
+                  backgroundImage: b.imageLinks && b.imageLinks.thumbnail
+                }
+            )
           }));
         })
         .catch(err => {
@@ -56,18 +61,11 @@ class SearchBooks extends React.Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.state.books
-              .filter(
-                b =>
-                  !this.props.getAllBooks()
-                    .map(b => b.id)
-                    .includes(b.id)
-              )
-              .map(b => (
-                <li key={b.id}>
-                  <Book moveBook={this.props.addBook(b)} {...b} />
-                </li>
-              ))}
+            {this.state.books.map(b => (
+              <li key={b.id}>
+                <Book moveBook={this.props.moveBook(b)} {...b} />
+              </li>
+            ))}
           </ol>
         </div>
       </div>
