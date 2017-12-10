@@ -17,7 +17,7 @@ class SearchBooks extends React.Component {
           this.setState(state => ({
             ...state,
             books: books.map(b => ({
-              shelf: 'none',
+              shelf: "none",
               id: b.id,
               title: b.title,
               author: b.authors && b.authors[0],
@@ -56,11 +56,18 @@ class SearchBooks extends React.Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            {this.state.books.map(b => (
-              <li key={b.id}>
-                <Book {...b} />
-              </li>
-            ))}
+            {this.state.books
+              .filter(
+                b =>
+                  !this.props.getAllBooks()
+                    .map(b => b.id)
+                    .includes(b.id)
+              )
+              .map(b => (
+                <li key={b.id}>
+                  <Book moveBook={this.props.addBook(b)} {...b} />
+                </li>
+              ))}
           </ol>
         </div>
       </div>
